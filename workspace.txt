@@ -1,0 +1,603 @@
+# **Watchdogs Documentation**
+
+**Important Note**: All documentation content on this site is presented in **English** according to the original source from the repository. However, the system can accept and respond to *queries* or requests in various languages (including Indonesian).
+
+---
+
+**System Identity**: You are a **static, read-only documentation website** for the **Watchdogs** project.
+
+Appearance, behavior, and tone MUST closely resemble: **[https://git-scm.com/](https://git-scm.com/)**. This is **not** a modern web application. It prioritizes **documentation**, minimalism, utilitarianism, and is intentionally simple.
+
+> If it looks flashy, it's wrong.
+
+---
+
+## **1. Visual Style & Interaction (MANDATORY)**
+
+### UI Rules (Strict)
+* Layout with **navigation on the left** (sidebar)
+* Background **hex color: #2a2a2a**
+* **Font family: "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif**
+* Font-size: 13px for body, 16px for heading
+* Line-height: 1.5
+* No cards, panels, or animations
+* No hero sections
+* No dashboard
+
+### Content Tone
+All informational messages should feel like:
+* Git Manual
+* Mailing list discussions
+* Kernel documentation
+
+Example tone:
+```
+This section explains the Linux build process.
+No automation is performed.
+```
+
+MUST NOT:
+* Emoji
+* Marketing language
+* Chatbot-like conversational tone
+
+---
+
+## **2. Core Behavior**
+You are a **documentation viewer**.
+
+You:
+* Fetch documentation from GitHub
+* Validate it
+* Render it correctly
+
+---
+
+## **3. Linking & Content Sources**
+
+### Routing (Git Anchor Style)
+The site uses **hash routing**.
+
+#### Mandatory Routes
+```
+#home - https://raw.githubusercontent.com/gskeleton/watchdogs/refs/heads/main/README.md
+#linux - https://raw.githubusercontent.com/gskeleton/watchdogs/refs/heads/main/README.md#linux
+#windows-native - https://raw.githubusercontent.com/gskeleton/watchdogs/refs/heads/main/README.md#native
+#docker - https://raw.githubusercontent.com/gskeleton/watchdogs/refs/heads/main/README/more/docker.md
+#podman - https://raw.githubusercontent.com/gskeleton/watchdogs/refs/heads/main/README/more/podman.md
+#options - https://raw.githubusercontent.com/gskeleton/watchdogs/refs/heads/main/README/more/options.md
+#sublime - https://raw.githubusercontent.com/gskeleton/watchdogs/refs/heads/main/README/more/sublime.md
+#vscode - https://raw.githubusercontent.com/gskeleton/watchdogs/refs/heads/main/README/more/vscode.md
+#docs - https://raw.githubusercontent.com/gskeleton/watchdogs/refs/heads/main/README/more/docs.md
+#known - https://raw.githubusercontent.com/gskeleton/watchdogs/refs/heads/main/README/more/known.md
+#pawnmc - https://raw.githubusercontent.com/novusr/Pawn-MC/refs/heads/main/README.md
+#renameku - https://raw.githubusercontent.com/kurobytesmrt/renameku/refs/heads/main/README.md
+```
+
+---
+
+## **4. Template with Left Navigation**
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Watchdogs Documentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;
+            font-size: 13px;
+            line-height: 1.5;
+            background: #2a2a2a;
+            color: #f0f0f0;
+            min-height: 100vh;
+        }
+        
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* LEFT SIDEBAR NAVIGATION */
+        .sidebar {
+            width: 220px;
+            background: #1e1e1e;
+            border-right: 1px solid #444;
+            padding: 20px 0;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            overflow-y: auto;
+        }
+        
+        .sidebar-header {
+            padding: 0 20px 20px 20px;
+            border-bottom: 1px solid #444;
+            margin-bottom: 15px;
+        }
+        
+        .sidebar-header h1 {
+            font-size: 18px;
+            color: #4da6ff;
+            font-weight: normal;
+        }
+        
+        .nav-section {
+            margin-bottom: 25px;
+        }
+        
+        .nav-section h2 {
+            font-size: 12px;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 0 20px;
+            margin-bottom: 10px;
+            font-weight: normal;
+        }
+        
+        .nav-links {
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin: 0;
+        }
+        
+        .nav-links a {
+            display: block;
+            padding: 8px 20px;
+            color: #d4d4d4;
+            text-decoration: none;
+            border-left: 3px solid transparent;
+            transition: all 0.2s;
+        }
+        
+        .nav-links a:hover {
+            background: #2a2a2a;
+            color: #4da6ff;
+            border-left-color: #4da6ff;
+        }
+        
+        .nav-links a.active {
+            background: #2a2a2a;
+            color: #4da6ff;
+            border-left-color: #4da6ff;
+            font-weight: bold;
+        }
+        
+        /* MAIN CONTENT */
+        .content {
+            flex: 1;
+            margin-left: 220px;
+            padding: 30px 40px;
+            max-width: 900px;
+        }
+        
+        /* CODE BLOCKS */
+        pre {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 15px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 12px;
+            border-radius: 4px;
+            margin: 15px 0;
+            border: 1px solid #444;
+        }
+        
+        code {
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            background: #1e1e1e;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 12px;
+        }
+        
+        /* TABLES */
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 15px 0;
+            border: 1px solid #444;
+        }
+        
+        th, td {
+            border: 1px solid #444;
+            padding: 8px 12px;
+            text-align: left;
+        }
+        
+        th {
+            background: #1e1e1e;
+            font-weight: bold;
+        }
+        
+        /* LINKS */
+        a {
+            color: #4da6ff;
+            text-decoration: none;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+        
+        /* HEADINGS */
+        h1 { font-size: 24px; margin: 25px 0 15px 0; color: #fff; }
+        h2 { font-size: 20px; margin: 20px 0 12px 0; color: #fff; border-bottom: 1px solid #444; padding-bottom: 5px; }
+        h3 { font-size: 16px; margin: 15px 0 10px 0; color: #fff; }
+        
+        /* FOOTER */
+        footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #444;
+            color: #888;
+            font-size: 11px;
+            line-height: 1.4;
+        }
+        
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid #444;
+            }
+            
+            .content {
+                margin-left: 0;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- LEFT SIDEBAR NAVIGATION -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h1>Watchdogs</h1>
+                <div style="font-size: 11px; color: #888; margin-top: 5px;">Documentation</div>
+            </div>
+            
+            <div class="nav-section">
+                <h2>Getting Started</h2>
+                <ul class="nav-links">
+                    <li><a href="#home" class="nav-link">Home</a></li>
+                    <li><a href="#linux" class="nav-link">Linux</a></li>
+                    <li><a href="#windows-native" class="nav-link">Windows Native</a></li>
+                </ul>
+            </div>
+            
+            <div class="nav-section">
+                <h2>Containers</h2>
+                <ul class="nav-links">
+                    <li><a href="#docker" class="nav-link">Docker</a></li>
+                    <li><a href="#podman" class="nav-link">Podman</a></li>
+                </ul>
+            </div>
+            
+            <div class="nav-section">
+                <h2>Configuration</h2>
+                <ul class="nav-links">
+                    <li><a href="#options" class="nav-link">Options</a></li>
+                    <li><a href="#sublime" class="nav-link">Sublime</a></li>
+                    <li><a href="#vscode" class="nav-link">VSCode</a></li>
+                    <li><a href="#docs" class="nav-link">Docs</a></li>
+                    <li><a href="#known" class="nav-link">Known Issues</a></li>
+                </ul>
+            </div>
+            
+            <div class="nav-section">
+                <h2>External Tools</h2>
+                <ul class="nav-links">
+                    <li><a href="#pawnmc" class="nav-link">PawnMC</a></li>
+                    <li><a href="#renameku" class="nav-link">RenameKU</a></li>
+                </ul>
+            </div>
+        </nav>
+        
+        <!-- MAIN CONTENT -->
+        <main class="content" id="content">
+            <!-- Content will be loaded here -->
+        </main>
+    </div>
+    
+    <footer>
+        Copyright (C) 2026 Watchdogs Team, Watchdogs Contributor, Zhipu LLM, Next.js also Bun. Inspired by: git.scm.com.
+    </footer>
+
+    <script>
+        // Route mapping
+        const routes = {
+            '#home': 'https://raw.githubusercontent.com/gskeleton/watchdogs/refs/heads/main/README.md',
+            '#linux': 'https://raw.githubusercontent.com/gskeleton/watchdogs/refs/heads/main/README.md#linux',
+            '#windows-native': 'https://raw.githubusercontent.com/gskeleton/watchdogs/refs/heads/main/README.md#native',
+            '#docker': 'https://raw.githubusercontent.com/gskeleton/watchdogs/refs/heads/main/README/more/docker.md',
+            '#podman': 'https://raw.githubusercontent.com/gskeleton/watchdogs/refs/heads/main/README/more/podman.md',
+            '#options': 'https://raw.githubusercontent.com/gskeleton/watchdogs/refs/heads/main/README/more/options.md',
+            '#sublime': 'https://raw.githubusercontent.com/gskeleton/watchdogs/refs/heads/main/README/more/sublime.md',
+            '#vscode': 'https://raw.githubusercontent.com/gskeleton/watchdogs/refs/heads/main/README/more/vscode.md',
+            '#docs': 'https://raw.githubusercontent.com/gskeleton/watchdogs/refs/heads/main/README/more/docs.md',
+            '#known': 'https://raw.githubusercontent.com/gskeleton/watchdogs/refs/heads/main/README/more/known.md',
+            '#pawnmc': 'https://raw.githubusercontent.com/novusr/Pawn-MC/refs/heads/main/README.md',
+            '#renameku': 'https://raw.githubusercontent.com/kurobytesmrt/renameku/refs/heads/main/README.md'
+        };
+
+        // Simple markdown parser (NO SYNTAX HIGHLIGHTING)
+        function parseMarkdown(text) {
+            // Extract code blocks first and replace with placeholders
+            const codeBlocks = [];
+            let blockIndex = 0;
+            
+            // Handle code blocks
+            text = text.replace(/```(\w+)?\n([\s\S]*?)```/g, (match, lang, code) => {
+                codeBlocks.push(code);
+                const placeholder = `__CODE_BLOCK_${blockIndex++}__`;
+                return placeholder;
+            });
+            
+            // Also handle inline code blocks
+            text = text.replace(/```([\s\S]*?)```/g, (match, code) => {
+                codeBlocks.push(code);
+                const placeholder = `__CODE_BLOCK_${blockIndex++}__`;
+                return placeholder;
+            });
+            
+            // Process escapes
+            text = text.replace(/\\([\\`*_{}\[\]()#+\-.!])/g, '$1');
+            
+            // Headings
+            text = text.replace(/^### (.*?)$/gm, '<h3>$1</h3>');
+            text = text.replace(/^## (.*?)$/gm, '<h2>$1</h2>');
+            text = text.replace(/^# (.*?)$/gm, '<h1>$1</h1>');
+            
+            // Bold/Italic
+            text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
+            
+            // Inline code
+            text = text.replace(/`([^`]+)`/g, '<code>$1</code>');
+            
+            // Lists
+            text = text.replace(/^\s*[-*+] (.*?)$/gm, '<li>$1</li>');
+            text = text.replace(/^\s*\d+\. (.*?)$/gm, '<li>$1</li>');
+            
+            // Handle list wrapping
+            text = text.replace(/(<li>.*<\/li>)(?!\s*<li>)/gs, '<ul>$1</ul>');
+            
+            // Links - proper format only
+            text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
+            
+            // Bare URLs
+            text = text.replace(/(https?:\/\/[^\s<>]+[^\s<>\.])/g, '<a href="$1" target="_blank">$1</a>');
+            
+            // IGNORE broken image links - remove them completely
+            text = text.replace(/!\[.*?\]\([^)]*\)/g, '');
+            text = text.replace(/!https?:\/\/[^\s>]+[^<\n]*/g, '');
+            
+            // Tables (basic support)
+            const lines = text.split('\n');
+            let inTable = false;
+            let tableRows = [];
+            let result = [];
+            
+            for (let line of lines) {
+                if (line.includes('|') && line.trim().startsWith('|')) {
+                    if (!inTable) {
+                        inTable = true;
+                        tableRows = [];
+                    }
+                    tableRows.push(line);
+                } else {
+                    if (inTable && tableRows.length > 0) {
+                        result.push(renderTable(tableRows));
+                        inTable = false;
+                        tableRows = [];
+                    }
+                    result.push(line);
+                }
+            }
+            
+            if (inTable && tableRows.length > 0) {
+                result.push(renderTable(tableRows));
+            }
+            
+            text = result.join('\n');
+            
+            // Paragraphs
+            text = text.split('\n\n').map(p => {
+                p = p.trim();
+                if (p && !p.startsWith('<') && !p.endsWith('>')) {
+                    return '<p>' + p + '</p>';
+                }
+                return p;
+            }).join('\n');
+            
+            // Restore code blocks
+            for (let i = 0; i < codeBlocks.length; i++) {
+                const placeholder = `__CODE_BLOCK_${i}__`;
+                const code = codeBlocks[i].replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                text = text.replace(placeholder, `<pre><code>${code}</code></pre>`);
+            }
+            
+            // Clean up
+            text = text.replace(/<p><\/p>/g, '');
+            text = text.replace(/\n/g, ' ');
+            
+            return text;
+        }
+        
+        function renderTable(rows) {
+            let html = '<table>';
+            let isHeader = true;
+            
+            for (let row of rows) {
+                const cells = row.split('|').filter(cell => cell.trim() !== '');
+                
+                if (cells.length === 0) continue;
+                
+                if (row.includes('---') || row.includes('===')) {
+                    isHeader = false;
+                    continue;
+                }
+                
+                html += '<tr>';
+                for (let cell of cells) {
+                    const tag = isHeader ? 'th' : 'td';
+                    html += `<${tag}>${cell.trim()}</${tag}>`;
+                }
+                html += '</tr>';
+            }
+            
+            html += '</table>';
+            return html;
+        }
+        
+        // Extract section from README
+        function extractSection(text, sectionName) {
+            const lines = text.split('\n');
+            let inSection = false;
+            let sectionLines = [];
+            let found = false;
+            
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i];
+                
+                // Look for section header
+                if (line.toLowerCase().includes(`## ${sectionName}`) || 
+                    line.toLowerCase().includes(`# ${sectionName}`)) {
+                    inSection = true;
+                    found = true;
+                    continue;
+                }
+                
+                // Stop at next major section
+                if (inSection && (line.startsWith('# ') || line.startsWith('## '))) {
+                    break;
+                }
+                
+                if (inSection) {
+                    sectionLines.push(line);
+                }
+            }
+            
+            if (!found && sectionName === 'linux') {
+                // Try alternative patterns
+                for (let i = 0; i < lines.length; i++) {
+                    if (lines[i].toLowerCase().includes('linux') && 
+                        (lines[i].startsWith('#') || lines[i].startsWith('##'))) {
+                        inSection = true;
+                        found = true;
+                        continue;
+                    }
+                    
+                    if (inSection && (lines[i].startsWith('# ') || lines[i].startsWith('## '))) {
+                        break;
+                    }
+                    
+                    if (inSection) {
+                        sectionLines.push(lines[i]);
+                    }
+                }
+            }
+            
+            if (!found) {
+                return `[ERROR] Section "${sectionName}" not found in README.`;
+            }
+            
+            return sectionLines.join('\n');
+        }
+        
+        // Load content
+        async function loadContent() {
+            const hash = window.location.hash || '#home';
+            const contentDiv = document.getElementById('content');
+            
+            // Update active nav link
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === hash) {
+                    link.classList.add('active');
+                }
+            });
+            
+            const url = routes[hash];
+            if (!url) {
+                contentDiv.innerHTML = '<p>[ERROR] Route not recognized.</p>';
+                return;
+            }
+            
+            try {
+                const response = await fetch(url);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                let text = await response.text();
+                
+                if (!text || text.trim().length === 0) {
+                    throw new Error('Empty content');
+                }
+                
+                // Process based on route
+                if (hash === '#linux') {
+                    text = extractSection(text, 'linux');
+                } else if (hash === '#windows-native') {
+                    text = extractSection(text, 'native');
+                }
+                
+                // Parse and render
+                contentDiv.innerHTML = parseMarkdown(text);
+                
+            } catch (error) {
+                console.error('Load error:', error);
+                contentDiv.innerHTML = `
+                    <p>[ERROR] Failed to load documentation.</p>
+                    <p><strong>URL:</strong> ${url}</p>
+                    <p><strong>Error:</strong> ${error.message}</p>
+                    <p><a href="${url}" target="_blank">View raw file on GitHub</a></p>
+                `;
+            }
+        }
+        
+        // Initialize
+        window.addEventListener('hashchange', loadContent);
+        window.addEventListener('load', () => {
+            if (!window.location.hash) {
+                window.location.hash = '#home';
+            } else {
+                loadContent();
+            }
+        });
+        
+        // Handle nav clicks
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('nav-link')) {
+                e.preventDefault();
+                const hash = e.target.getAttribute('href');
+                window.location.hash = hash;
+            }
+        });
+    </script>
+</body>
+</html>
+```
